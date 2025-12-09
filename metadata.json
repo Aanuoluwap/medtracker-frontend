@@ -1,0 +1,9 @@
+{
+  "name": "Medtracker",
+  "description": "A smart medication tracking application with AI-powered insights and simulated WearOS synchronization.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
