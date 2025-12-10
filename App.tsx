@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Smartphone, Watch, Activity, Settings, RefreshCw, Building2, Siren } from 'lucide-react';
+import { Plus, Smartphone, Watch, Activity, Settings, RefreshCw, Building2, Siren, HelpCircle } from 'lucide-react';
 import { Medication, UserSettings, DEFAULT_SETTINGS } from './types';
 import { MedicationCard } from './components/MedicationCard';
 import { AddMedicationModal } from './components/AddMedicationModal';
@@ -8,11 +8,13 @@ import { WatchSimulator } from './components/WatchSimulator';
 import { SettingsScreen } from './components/SettingsScreen';
 import { EmergencyOverlay } from './components/EmergencyOverlay';
 import { HospitalDashboard } from './components/HospitalDashboard';
+import { TutorialModal } from './components/TutorialModal';
 
 const App = () => {
   const [medications, setMedications] = useState<Medication[]>([]);
   const [settings, setSettings] = useState<UserSettings>(DEFAULT_SETTINGS);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
   const [showWatchView, setShowWatchView] = useState(false);
   const [syncStatus, setSyncStatus] = useState<'synced' | 'syncing' | 'offline'>('synced');
   const [view, setView] = useState<'dashboard' | 'settings'>('dashboard');
@@ -131,6 +133,14 @@ const App = () => {
                <RefreshCw size={12} className={`${syncStatus === 'syncing' ? 'animate-spin' : ''}`} />
                {syncStatus === 'synced' ? 'Synced' : syncStatus === 'syncing' ? 'Syncing...' : 'Offline'}
              </div>
+
+             <button
+               onClick={() => setIsTutorialOpen(true)}
+               className="p-2 rounded-full transition-colors hover:bg-gray-100 text-gray-600"
+               title="Tutorial"
+             >
+               <HelpCircle size={20} />
+             </button>
 
              <button 
                onClick={() => setView(view === 'settings' ? 'dashboard' : 'settings')}
@@ -263,6 +273,12 @@ const App = () => {
         onClose={() => setIsModalOpen(false)} 
         onAdd={addMedication} 
         userAge={settings.age}
+      />
+
+      {/* Tutorial Modal */}
+      <TutorialModal
+        isOpen={isTutorialOpen}
+        onClose={() => setIsTutorialOpen(false)}
       />
 
     </div>
